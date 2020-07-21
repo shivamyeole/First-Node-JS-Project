@@ -1,49 +1,46 @@
 const express = require('express')
 const router = express.Router()
-const Author = require('../models/author.js')
+const Author = require('../models/author')
 
-//All Authors Routes
+// All Authors Route
 router.get('/', async (req, res) => {
-
-    try {
-        let serachoption = {}
-        if(req.query.name != null && req.query.name !== '')
-        {
-            serachoption.name = new RegExp(req.query.name, 'i')
-        }
-        const authors = await Author.find(serachoption)
-        res.render('authors/authors', {
-            authors : authors,
-            serachoption : req.query
-        })
-        } catch (err) {
-            res.redirect('/')
-            }
+  let searchOptions = {}
+  if (req.query.name != null && req.query.name !== '') {
+    searchOptions.name = new RegExp(req.query.name, 'i')
+  }
+  try {
+    const authors = await Author.find(searchOptions)
+    res.render('authors/index', {
+      authors: authors,
+      searchOptions: req.query
     })
-
-//New Author Route
-router.get('/new',(req, res) => {
-    res.render('authors/new', {author : new Author() })
+  } catch {
+    res.redirect('/')
+  }
 })
 
-//Create Author Route (Using Async..await)
+// New Author Route
+router.get('/new', (req, res) => {
+  res.render('authors/new', { author: new Author() })
+})
+
+// Create Author Route
 router.post('/', async (req, res) => {
-
-    const author = new Author({
-        name : req.body.name
+  const author = new Author({
+    name: req.body.name
+  })
+  try {
+    const newAuthor = await author.save()
+    // res.redirect(`authors/${newAuthor.id}`)
+    res.redirect(`authors`)
+  } catch {
+    res.render('authors/new', {
+      author: author,
+      errorMessage: 'Error creating Author'
     })
-    try {
-        const newAuthor = await author.save()
-            //res.redirect(`authors/${newAuthor}`)
-            res.redirect(`authors`)
+  }
+})
 
-        } catch (err) {
-        res.render('authors/new', {
-            author: author,
-            errorMessage : 'Error Creating Author'
-            })
-        }
-    })
 
 //Create Author Route (Using callback funtion)
 // router.post('/', (req, res) => {
