@@ -16,7 +16,9 @@
     "express": "^4.17.1",
     "express-ejs-layouts": "^2.5.0",
     "kill-port": "^1.6.1",
-    "mongoose": "^5.9.25"
+    "log4js": "^6.3.0",
+    "mongoose": "^5.9.25",
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
