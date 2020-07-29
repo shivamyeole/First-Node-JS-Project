@@ -10,7 +10,7 @@ const bodyParser = require('body-parser')
 const indexRouter = require('./routes/index')
 const authorRouter = require('./routes/authors')
 const bookRouter = require('./routes/books')
-// const authentification = require('./routes/alm').authentification
+const authentification = require('./routes/alm').authentification
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -29,11 +29,11 @@ app.use('/', indexRouter)
 app.use('/authors', authorRouter)
 app.use('/books', bookRouter)
 
-// authentification("G101207", "SSC-Adm4n")
-//   .then(result => console.log('AUTH SUCCESS'))
-//   .catch(error => {
-//     console.log('AUTH FAILD')
-//   });
+authentification("G101207", "SSC-Adm4n")
+  .then(result => console.log('AUTH SUCCESS'))
+  .catch(error => {
+    console.log('AUTH FAILD')
+  });
 
 app.listen(process.env.PORT || 3000)
 
